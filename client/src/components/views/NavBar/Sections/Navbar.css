@@ -16,7 +16,9 @@
 .menu__logo a {
   display: inline-block;
   font-size: 20px;
-  padding: 19px 20px;
+  font-weight: 800;
+  padding: 19px 0.05px;
+  color: rgb(221, 109, 109);
 }
 
 .menu__container .ant-menu-item {
