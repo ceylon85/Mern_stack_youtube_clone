@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Typography,
     Button,
@@ -12,7 +12,56 @@ import Dropzone from 'react-dropzone';
 const {TextArea} = Input;
 const {Title} = Typography;
 
+const PrivateOptions = [
+    {
+        value: 0,
+        label: "Private"
+    }, {
+        value: 1,
+        label: "Public"
+    }
+]
+
+const CategoryOptions = [
+    {
+        value: 0,
+        label: "Film & Animation"
+    }, {
+        value: 1,
+        label: "Autos & Vehicles"
+    }, {
+        value: 2,
+        label: "Music"
+    }, {
+        value: 3,
+        label: "Pets & Animals"
+    }
+]
+
 function VideoUploadPage() {
+    const [VideoTitle,
+        setVideoTitle] = useState("")
+    const [Description,
+        setDescription] = useState("")
+    const [Private,
+        setPrivate] = useState(0)
+    const [Category,
+        setCategory] = useState("Film & Animation")
+
+    const onTitleChange = (e) => {
+        setVideoTitle(e.currentTarget.value)
+    }
+
+    const onDescriptionChange = (e) => {
+        setDescription(e.currentTarget.value)
+    }
+    const onPrivateChange = (e) => {
+        setPrivate(e.currentTarget.value)
+    }
+
+    const onCategoryCahnge = (e) => {
+        setCategory(e.currentTarget.value)
+    }
     return (
         <div
             style={{
@@ -37,12 +86,14 @@ function VideoUploadPage() {
                         {({getRootProps, getInputProps}) => (
                             <div
                                 style={{
+                                display: 'flex',
                                 width: '300px',
                                 height: '240px',
                                 border: '1px solid lightgray',
                                 alignItems: 'center',
                                 justifyContent: 'center'
-                            }} {...getRootProps()}>
+                            }}
+                                {...getRootProps()}>
                                 <input {...getInputProps()}/>
                                 <Icon
                                     type="plus"
@@ -52,6 +103,7 @@ function VideoUploadPage() {
                             </div>
                         )}
                     </Dropzone>
+
                     {/* Thumbnail */}
                     <div>
                         <img src alt/>
@@ -59,21 +111,28 @@ function VideoUploadPage() {
                 </div>
                 <br/>
                 <br/>
+
                 <label>Title</label>
-                <Input oncChange value/>
+                <Input onChange={onTitleChange} value={VideoTitle}/>
                 <br/>
                 <br/>
+
                 <label>Description</label>
-                <TextArea onChange value/>
+                <TextArea onChange={onDescriptionChange} value={Description}/>
                 <br/>
                 <br/>
-                <select onChange>
-                    <option key value></option>
+
+                <select onChange={onPrivateChange}>
+                    {PrivateOptions.map((item, index) => (
+                        <option key={index} value={item.value}>{item.label}</option>
+                    ))}
                 </select>
                 <br/>
                 <br/>
-                <select onChange>
-                    <option key value></option>
+                <select onChange={onCategoryCahnge}>
+                    {CategoryOptions.map((item, index) => (
+                        <option key={index} value={item.value}>{item.label}</option>
+                    ))}
                 </select>
                 <br/>
                 <br/>
