@@ -7,6 +7,7 @@ import {
     Input,
     Icon
 } from 'antd';
+import Dropzone from 'react-dropzone';
 
 const {TextArea} = Input;
 const {Title} = Typography;
@@ -32,7 +33,25 @@ function VideoUploadPage() {
                     justifyContent: 'space-between'
                 }}>
                     {/* Drop Zone */}
-
+                    <Dropzone onDrop multiple maxSize>
+                        {({getRootProps, getInputProps}) => (
+                            <div
+                                style={{
+                                width: '300px',
+                                height: '240px',
+                                border: '1px solid lightgray',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }} {...getRootProps()}>
+                                <input {...getInputProps()}/>
+                                <Icon
+                                    type="plus"
+                                    style={{
+                                    fontSize: '3rem'
+                                }}/>
+                            </div>
+                        )}
+                    </Dropzone>
                     {/* Thumbnail */}
                     <div>
                         <img src alt/>
@@ -51,11 +70,13 @@ function VideoUploadPage() {
                 <select onChange>
                     <option key value></option>
                 </select>
-
+                <br/>
+                <br/>
                 <select onChange>
                     <option key value></option>
                 </select>
-
+                <br/>
+                <br/>
                 <Button type="danger" size="large" onClick>
                     Submit</Button>
             </Form>
