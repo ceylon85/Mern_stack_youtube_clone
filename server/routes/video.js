@@ -30,7 +30,7 @@ router.post('/uploadfiles', (req, res) => {
         if (err) {
             return res.json({success: false, err})
         }
-        return res.json({success: true, url: res.req.file.path, fileName: res.req.file.filename})
+        return res.json({success: true, filePath: res.req.file.path, fileName: res.req.file.filename})
         //file을 업로드하면 그 경로를 보내주는 것
     })
 });
@@ -49,31 +49,46 @@ router.post('/uploadVideo', (req, res) => {
     })
 });
 
+router.get('/getVideos', (req, res) => {
+
+    //비디오를 DB 에서 가져와서 클라이언트에 보낸다.
+    Video
+        .find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if (err) 
+                return res.status(400).send(err);
+            res
+                .status(200)
+                .json({success: true, videos})
+        })
+});
+
 //썸네일 생성
 router.post('/thumbnail', (req, res) => {
     //썸네일 생성, 비디오 러닝타임
 
-    let filePath = ""
+    let thumbsFilePath = ""
     let fileDuration = ""
     //비디오 정보
-    ffmpeg.ffprobe(req.body.url, function (err, metadata) {
+    ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
         console.log(metadata); //all metadata
         console.log(metadata.format.duration);
         fileDuration = metadata.format.duration
     });
 
     //썸네일 생성
-    ffmpeg(req.body.url) //저장 경로 (uploads 폴더)
+    ffmpeg(req.body.filePath) //저장 경로 (uploads 폴더)
     //video thumbnail 파일이름 생성
         .on('filenames', function (filenames) {
             console.log('Will generate ' + filenames.join(', '))
             console.log(filenames)
-            filePath = "uploads/thumbnails/" + filenames[0];
+            thumbsFilePath = "uploads/thumbnails/" + filenames[0];
         })
         //썸네일 생성 후 무엇을 할 것인지
         .on('end', function () {
             console.log('Screenshots taken');
-            return res.json({success: true, url: filePath, fileDuration: fileDuration});
+            return res.json({success: true, thumbsFilePath: thumbsFilePath, fileDuration: fileDuration});
         })
         //스크린 샷 옵션
         .screenshots({

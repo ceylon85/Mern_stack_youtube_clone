@@ -3,7 +3,6 @@ import {
     Typography,
     Button,
     Form,
-    message,
     Input,
     Icon
 } from 'antd';
@@ -57,8 +56,8 @@ function VideoUploadPage(props) {
         setFilePath] = useState("")
     const [Duration,
         setDuration] = useState("")
-    const [ThumbnailPath,
-        setThumbnailPath] = useState("")
+    const [Thumbnail,
+        setThumbnail] = useState("")
 
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value)
@@ -91,18 +90,18 @@ function VideoUploadPage(props) {
                     console.log(response.data)
 
                     let variable = {
-                        url: response.data.url,
+                        filePath: response.data.filePath,
                         fileName: response.data.fileName
                     }
 
-                    setFilePath(response.data.url)
+                    setFilePath(response.data.filePath)
 
                     Axios
                         .post('/api/video/thumbnail', variable)
                         .then(response => {
                             if (response.data.success) {
                                 setDuration(response.data.fileDuration)
-                                setThumbnailPath(response.data.url)
+                                setThumbnail(response.data.thumbsFilePath)
                             } else {
                                 alert('썸네일 생성에 실패!')
                             }
@@ -124,7 +123,7 @@ function VideoUploadPage(props) {
             filePath: FilePath,
             category: Category,
             duration: Duration,
-            thumbnail: ThumbnailPath
+            thumbnail: Thumbnail
         }
         //variables 를 가지고 request를 보냄
         Axios
@@ -187,8 +186,8 @@ function VideoUploadPage(props) {
                     </Dropzone>
 
                     {/* Thumbnail */}
-                    {ThumbnailPath && <div>
-                        <img src={`http://localhost:5000/${ThumbnailPath}`} alt='thumbnail'/>
+                    {Thumbnail && <div>
+                        <img src={`http://localhost:5000/${Thumbnail}`} alt='thumbnail'/>
                     </div>
 }
                 </div>
