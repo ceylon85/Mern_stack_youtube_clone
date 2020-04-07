@@ -8,6 +8,7 @@ import {
     Icon
 } from 'antd';
 import Dropzone from 'react-dropzone';
+import Axios from 'axios';
 
 const {TextArea} = Input;
 const {Title} = Typography;
@@ -62,6 +63,25 @@ function VideoUploadPage() {
     const onCategoryCahnge = (e) => {
         setCategory(e.currentTarget.value)
     }
+
+    const onDrop = (files) => {
+        let formData = new FormData;
+        const config = {
+            header: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        formData.append('file', files[0])
+
+        Axios
+            .post('/api/video/uploadfiles', formData, config)
+            .then(response => {
+                if (response.data.success) {} else {
+                    alert('비디오 업로드 실패!')
+                }
+            })
+    }
+
     return (
         <div
             style={{
@@ -82,7 +102,7 @@ function VideoUploadPage() {
                     justifyContent: 'space-between'
                 }}>
                     {/* Drop Zone */}
-                    <Dropzone onDrop multiple maxSize>
+                    <Dropzone onDrop={onDrop} multiple={false} maxSize={10000000}>
                         {({getRootProps, getInputProps}) => (
                             <div
                                 style={{
@@ -129,6 +149,7 @@ function VideoUploadPage() {
                 </select>
                 <br/>
                 <br/>
+
                 <select onChange={onCategoryCahnge}>
                     {CategoryOptions.map((item, index) => (
                         <option key={index} value={item.value}>{item.label}</option>
@@ -136,6 +157,7 @@ function VideoUploadPage() {
                 </select>
                 <br/>
                 <br/>
+                
                 <Button type="danger" size="large" onClick>
                     Submit</Button>
             </Form>
