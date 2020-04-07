@@ -7,7 +7,7 @@ function LeftMenu(props) {
   return (
     <Menu mode={props.mode}>
     <Menu.Item key="mail">
-      <a href="/">Video</a>
+      <a href="/">Home</a>
     </Menu.Item>
     <SubMenu title={<span>Subscription</span>}>
       <MenuItemGroup title="Item 1">

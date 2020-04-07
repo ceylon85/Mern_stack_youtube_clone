@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import Dropzone from 'react-dropzone';
 import Axios from 'axios';
-import { useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const {TextArea} = Input;
 const {Title} = Typography;
@@ -40,10 +40,10 @@ const CategoryOptions = [
     }, {
         value: 0,
         label: "Sports"
-    },
+    }
 ]
 
-function VideoUploadPage() {
+function VideoUploadPage(props) {
     const user = useSelector(state => state.user);
     const [VideoTitle,
         setVideoTitle] = useState("")
@@ -118,23 +118,29 @@ function VideoUploadPage() {
 
         const variables = {
             writer: user.userData._id,
-            title: VideoTitle ,
+            title: VideoTitle,
             description: Description,
             privacy: Privacy,
             filePath: FilePath,
             category: Category,
             duration: Duration,
-            thumbnail: ThumbnailPath 
+            thumbnail: ThumbnailPath
         }
         //variables 를 가지고 request를 보냄
-        Axios.post('/api/video/uploadVideo', variables)
-        .then(response => {
-            if(response.data.success){
+        Axios
+            .post('/api/video/uploadVideo', variables)
+            .then(response => {
+                if (response.data.success) {
 
-            }else {
-                alert('비디오 업로드에 실패 ')
-            }
-        })
+                    alert("업로드 성공했어요")
+                    props
+                        .history
+                        .push('/')
+
+                } else {
+                    alert('비디오 업로드에 실패 ')
+                }
+            })
 
     }
 
@@ -209,7 +215,7 @@ function VideoUploadPage() {
 
                 <select onChange={onCategoryCahnge}>
                     {CategoryOptions.map((item, index) => (
-                        <option key={index} value={item.value}>{item.label}</option>
+                        <option key={index} value={item.label}>{item.label}</option>
                     ))}
                 </select>
                 <br/>
