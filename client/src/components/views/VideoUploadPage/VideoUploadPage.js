@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import Dropzone from 'react-dropzone';
 import Axios from 'axios';
+import { useSelector} from 'react-redux';
 
 const {TextArea} = Input;
 const {Title} = Typography;
@@ -28,24 +29,28 @@ const CategoryOptions = [
         value: 0,
         label: "Film & Animation"
     }, {
-        value: 1,
+        value: 0,
         label: "Autos & Vehicles"
     }, {
-        value: 2,
+        value: 0,
         label: "Music"
     }, {
-        value: 3,
+        value: 0,
         label: "Pets & Animals"
-    }
+    }, {
+        value: 0,
+        label: "Sports"
+    },
 ]
 
 function VideoUploadPage() {
+    const user = useSelector(state => state.user);
     const [VideoTitle,
         setVideoTitle] = useState("")
     const [Description,
         setDescription] = useState("")
-    const [Private,
-        setPrivate] = useState(0)
+    const [Privacy,
+        setPrivacy] = useState(0)
     const [Category,
         setCategory] = useState("Film & Animation")
     const [FilePath,
@@ -54,7 +59,7 @@ function VideoUploadPage() {
         setDuration] = useState("")
     const [ThumbnailPath,
         setThumbnailPath] = useState("")
-        
+
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value)
     }
@@ -62,8 +67,8 @@ function VideoUploadPage() {
     const onDescriptionChange = (e) => {
         setDescription(e.currentTarget.value)
     }
-    const onPrivateChange = (e) => {
-        setPrivate(e.currentTarget.value)
+    const onPrivacyChange = (e) => {
+        setPrivacy(e.currentTarget.value)
     }
 
     const onCategoryCahnge = (e) => {
@@ -71,7 +76,7 @@ function VideoUploadPage() {
     }
 
     const onDrop = (files) => {
-        let formData = new FormData;
+        let formData = new FormData();
         const config = {
             header: {
                 'content-type': 'multipart/form-data'
@@ -108,6 +113,31 @@ function VideoUploadPage() {
             })
     }
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        const variables = {
+            writer: user.userData._id,
+            title: VideoTitle ,
+            description: Description,
+            privacy: Privacy,
+            filePath: FilePath,
+            category: Category,
+            duration: Duration,
+            thumbnail: ThumbnailPath 
+        }
+        //variables 를 가지고 request를 보냄
+        Axios.post('/api/video/uploadVideo', variables)
+        .then(response => {
+            if(response.data.success){
+
+            }else {
+                alert('비디오 업로드에 실패 ')
+            }
+        })
+
+    }
+
     return (
         <div
             style={{
@@ -121,7 +151,7 @@ function VideoUploadPage() {
             }}>
                 <Title level={2}>Upload Video</Title>
             </div>
-            <Form onSubmit>
+            <Form onSubmit={onSubmit}>
                 <div
                     style={{
                     display: 'flex',
@@ -151,11 +181,10 @@ function VideoUploadPage() {
                     </Dropzone>
 
                     {/* Thumbnail */}
-                    {ThumbnailPath &&
-                    <div>
+                    {ThumbnailPath && <div>
                         <img src={`http://localhost:5000/${ThumbnailPath}`} alt='thumbnail'/>
                     </div>
-                        }
+}
                 </div>
                 <br/>
                 <br/>
@@ -170,7 +199,7 @@ function VideoUploadPage() {
                 <br/>
                 <br/>
 
-                <select onChange={onPrivateChange}>
+                <select onChange={onPrivacyChange}>
                     {PrivateOptions.map((item, index) => (
                         <option key={index} value={item.value}>{item.label}</option>
                     ))}
@@ -186,7 +215,7 @@ function VideoUploadPage() {
                 <br/>
                 <br/>
 
-                <Button type="danger" size="large" onClick>
+                <Button type="danger" size="large" onClick={onSubmit}>
                     Submit</Button>
             </Form>
         </div>

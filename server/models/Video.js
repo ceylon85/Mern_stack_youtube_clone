@@ -1,0 +1,44 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const videoSchema = mongoose.Schema({
+
+    writer: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    title: {
+        type: String,
+        maxlength: 50
+    }, 
+    description: {
+        type: String
+    },
+    privacy:{
+        type: Number
+    },
+    filePath: {
+        type: String
+    },
+    category:{
+        type: String
+    },
+    views: {
+        type: Number,
+        default: 0
+    },
+    duration: {
+        type: String
+    },
+    thumbnaul: {
+        type: String
+    }
+
+
+}, {timestamps: true})
+//timestamps => 만든 date, update date 표시가 됨
+    
+
+const Video = mongoose.model('Video', videoSchema);
+
+module.exports = { Video }
