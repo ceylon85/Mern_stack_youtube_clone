@@ -33,7 +33,7 @@ function LandingPage() {
             <div style={{
                 position: 'relative'
             }}>
-                {/* 영상 하나에 해당하는 페이지를 가기 위해 링크  */}
+                {/* 영상에 해당하는 페이지를 가기 위해 링크  */}
                 <a href={`/video/${video._id}`}>
                     {/* 썸네일 이미지 */}
                     <img

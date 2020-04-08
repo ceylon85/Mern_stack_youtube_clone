@@ -22,10 +22,12 @@ var storage = multer.diskStorage({
         cb(null, true)
     }
 })
+
 var upload = multer({storage: storage}).single("file");
 
+//비디오를 서버에 저장
 router.post('/uploadfiles', (req, res) => {
-    //비디오를 서버에 저장
+
     upload(req, res, err => {
         if (err) {
             return res.json({success: false, err})
@@ -35,8 +37,9 @@ router.post('/uploadfiles', (req, res) => {
     })
 });
 
+//비디오를 서버에 저장
 router.post('/uploadVideo', (req, res) => {
-    //비디오를 서버에 저장
+
     const video = new Video(req.body)
     //mongodb method로 save
     video.save((err, video) => {
@@ -47,21 +50,6 @@ router.post('/uploadVideo', (req, res) => {
             .status(200)
             .json({success: true})
     })
-});
-
-router.get('/getVideos', (req, res) => {
-
-    //비디오를 DB 에서 가져와서 클라이언트에 보낸다.
-    Video
-        .find()
-        .populate('writer')
-        .exec((err, videos) => {
-            if (err) 
-                return res.status(400).send(err);
-            res
-                .status(200)
-                .json({success: true, videos})
-        })
 });
 
 //썸네일 생성
@@ -100,5 +88,34 @@ router.post('/thumbnail', (req, res) => {
             filename: 'thumbnail-%b.png' //썸네일- 파일 기본 이름
         })
 })
+
+//비디오를 DB 에서 가져와서 클라이언트에 보낸다.
+router.get('/getVideos', (req, res) => {
+
+    Video
+        .find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if (err) 
+                return res.status(400).send(err);
+            res
+                .status(200)
+                .json({success: true, videos})
+        })
+});
+
+//detailPage 에서 video정보 가져오는 router
+router.post('/getVideoDetail', (req, res) => {
+    Video
+        .findOne({"_id": req.body.videoId})
+        .populate('writer')
+        .exec((err, video) => {
+            if (err) 
+                return res.status(400).send(err);
+            return res
+                .status(200)
+                .json({success: true, video})
+        })
+});
 
 module.exports = router;
