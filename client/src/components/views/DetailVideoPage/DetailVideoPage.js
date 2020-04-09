@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Row, Col, List, Avatar} from 'antd';
 import Axios from 'axios';
 import SideVideo from "./Sections/SideVideo";
+import Subscribe from "./Sections/Subscribe";
 
 function VideoDetailPage(props) {
 
@@ -28,6 +29,7 @@ function VideoDetailPage(props) {
 
     if (Video.writer) {
         return (
+            <div>
             <Row gutter={[16, 16]}>
                 <Col lg={18} xs={24}>
                     <div
@@ -41,7 +43,8 @@ function VideoDetailPage(props) {
                         }}
                             src={`http://localhost:5000/${Video.filePath}`}
                             controls/>
-                        <List.Item actions>
+                        <List.Item actions={[<Subscribe userTo={Video.writer._id}
+                        userFrom ={localStorage.getItem('userId')}/>]}>
                             <List.Item.Meta
                                 avatar={< Avatar style = {{ color: '#f56a00', backgroundColor: '#fde3cf' }}>SJ</Avatar>}
                                 title={Video.writer.name}
@@ -58,6 +61,7 @@ function VideoDetailPage(props) {
 
                 </Col>
             </Row>
+            </div>
         )
     } else {
         return (

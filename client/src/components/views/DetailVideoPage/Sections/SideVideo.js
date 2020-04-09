@@ -29,7 +29,6 @@ function SideVideo() {
             style={{
             display: 'flex',
             marginBottom: '1rem',
-            padding: '0 2rem'
             
         }}>
             <div
@@ -48,7 +47,8 @@ function SideVideo() {
             </div>
 
             <div style={{
-                width: '50%'
+                width: '40%'
+                
             }}>
                 <a href={`/video/${video._id}`}style={{color: 'gray'}}>
                     <span
@@ -83,12 +83,12 @@ function SideVideo() {
     })
 
     return (
-
+        <div>
         <React.Fragment>
             <div style={{marginTop: '3rem'}}> </div>
             {renderSideVideo}
         </React.Fragment>
-
+        </div>
     )
 }
 
