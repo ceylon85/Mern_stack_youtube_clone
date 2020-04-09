@@ -25,10 +25,12 @@ function SideVideo() {
 
         return <div
             key={index}
+            
             style={{
             display: 'flex',
             marginBottom: '1rem',
             padding: '0 2rem'
+            
         }}>
             <div
                 style={{
@@ -55,9 +57,24 @@ function SideVideo() {
                         color: 'black'
                     }}>{video.title}</span><br/>
                     <span>{video.writer.name}</span><br/>
-                    <span>{video.views}
-                        views
+                    <span>{video.views} 조회수
                     </span><br/>
+                        {/* <span style={{
+                        bottom: 0,
+                        right: 0,
+                        position: 'flex',
+                        margin: '4px',
+                        color: '#fff',
+                        backgroundColor: 'rgba(17, 17, 17, 0.8)',
+                        opacity: 0.8,
+                        padding: '2px 4px',
+                        borderRadius: '2px',
+                        letterSpacing: '0.5px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        lineHeight: '12px'}}>{minutes}
+                            : {seconds}</span> */}
+                   
                     <span>{minutes}
                         : {seconds}</span>
                 </a>

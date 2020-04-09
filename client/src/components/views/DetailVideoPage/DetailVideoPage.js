@@ -8,11 +8,10 @@ function VideoDetailPage(props) {
     const videoId = props.match.params.videoId
     const [Video,
         setVideo] = useState([])
-        
+
     const videoVariable = {
         videoId: videoId
     }
-
 
     useEffect(() => {
 
@@ -20,7 +19,7 @@ function VideoDetailPage(props) {
             .post('/api/video/getVideoDetail', videoVariable)
             .then(response => {
                 if (response.data.success) {
-                    setVideo(response.data.Video)
+                    setVideo(response.data.video)
                 } else {
                     alert('비디오 정보를 가져으는데 실패했습니다.');
                 }
@@ -46,25 +45,26 @@ function VideoDetailPage(props) {
                             <List.Item.Meta
                                 avatar={< Avatar style = {{ color: '#f56a00', backgroundColor: '#fde3cf' }}>SJ</Avatar>}
                                 title={Video.writer.name}
-                                description={Video.description} />
-    
+                                description={Video.description}/>
+
                         </List.Item>
                         {/* Comments */}
                     </div>
-    
+
                 </Col>
                 <Col lg={6} xs={24}>
 
-                    <SideVideo />
+                    <SideVideo/>
 
                 </Col>
             </Row>
         )
     } else {
         return (
-            <div>... Loading...</div>
+            <div>Loading...</div>
         )
     }
+
 }
 
 export default VideoDetailPage
