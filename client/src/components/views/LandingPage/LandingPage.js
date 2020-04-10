@@ -66,8 +66,9 @@ function LandingPage() {
                 </a>
             </div><br/>
             <Meta avatar={// 유저 이미지 
-            < Avatar  
-            style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>SJ</Avatar> }
+            // < Avatar  
+            // style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>SJ</Avatar> }
+            <Avatar src={video.writer.image} />}
             //영상 타이틀
                 title={video.title}/> 
                 {/* writer_name */}
