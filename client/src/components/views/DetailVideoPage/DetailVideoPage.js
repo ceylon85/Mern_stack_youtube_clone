@@ -25,7 +25,7 @@ function VideoDetailPage(props) {
                     alert('비디오 정보를 가져으는데 실패했습니다.');
                 }
             })
-    }, []);
+    }, [videoVariable]);
 
     if (Video.writer) {
         return (
@@ -46,7 +46,7 @@ function VideoDetailPage(props) {
                         <List.Item actions={[<Subscribe userTo={Video.writer._id}
                         userFrom ={localStorage.getItem('userId')}/>]}>
                             <List.Item.Meta
-                                avatar={< Avatar style = {{ color: '#f56a00', backgroundColor: '#fde3cf' }}>SJ</Avatar>}
+                                avatar={< Avatar src={Video.writer.image}/>}
                                 title={Video.writer.name}
                                 description={Video.description}/>
 

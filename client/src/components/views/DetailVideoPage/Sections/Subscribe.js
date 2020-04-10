@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import Axios from 'axios';
+
 function Subscriber(props) {
     const userTo = props.userTo
     const userFrom = props.userFrom
@@ -15,8 +16,8 @@ function Subscriber(props) {
         }
 
         if(Subscribed) {
-            //when we are already subscribed 
-            axios.post('/api/subscribe/unSubscribe', subscribeVariables)
+            //이미 구독하고 있으면
+            Axios.post('/api/subscribe/unSubscribe', subscribeVariables)
                 .then(response => {
                     if(response.data.success){ 
                         setSubscribeNumber(SubscribeNumber - 1)
@@ -27,9 +28,9 @@ function Subscriber(props) {
                 })
 
         } else {
-            // when we are not subscribed yet
+            // 아직 구독 하지 않았다면
             
-            axios.post('/api/subscribe/subscribe', subscribeVariables)
+            Axios.post('/api/subscribe/subscribe', subscribeVariables)
                 .then(response => {
                     if(response.data.success) {
                         setSubscribeNumber(SubscribeNumber + 1)
@@ -46,7 +47,8 @@ function Subscriber(props) {
     useEffect(() => {
 
         const subscribeNumberVariables = { userTo: userTo, userFrom: userFrom }
-        axios.post('/api/subscribe/subscribeNumber', subscribeNumberVariables)
+
+        Axios.post('/api/subscribe/subscribeNumber', subscribeNumberVariables)
             .then(response => {
                 if (response.data.success) {
                     setSubscribeNumber(response.data.subscribeNumber)
@@ -55,16 +57,16 @@ function Subscriber(props) {
                 }
             })
 
-        axios.post('/api/subscribe/subscribed', subscribeNumberVariables)
+            Axios.post('/api/subscribe/subscribed', subscribeNumberVariables)
             .then(response => {
                 if (response.data.success) {
-                    setSubscribed(response.data.subcribed)
+                    setSubscribed(response.data.subscribed)
                 } else {
                     alert('Failed to get Subscribed Information')
                 }
             })
 
-    }, [])
+    }, [userTo, userFrom])
 
 
     return (

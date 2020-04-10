@@ -29,7 +29,7 @@ function LandingPage() {
         var minutes = Math.floor(video.duration / 60);
         var seconds = Math.floor(video.duration - minutes * 60);
 
-        return <Col lg={6} md={8} xs={24}>
+        return <Col key={index} lg={6} md={8} xs={24}>
             <div style={{
                 position: 'relative'
             }}>
@@ -87,7 +87,7 @@ function LandingPage() {
                 {moment(video.createdAt).format(" MMM Do YY")}
             </span>
         </Col>
-
+        
     })
 
     return (

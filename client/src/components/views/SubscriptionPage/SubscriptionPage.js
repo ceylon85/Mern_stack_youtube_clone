@@ -26,14 +26,14 @@ function SubscriptionPage() {
                     alert('비디오 가져오기를 실패했습니다')
                 }
             })
-    }, []) //뒤에가 비어있으면 한번만 돈다
+    }, [subscriptionVariables]) //뒤에가 비어있으면 한번만 돈다
 
     const renderCards = Videos.map((video, index) => {
         // duration을 받아올 때 모두 초로 되어있기에 따로 계산
         var minutes = Math.floor(video.duration / 60);
         var seconds = Math.floor(video.duration - minutes * 60);
 
-        return <Col lg={6} md={8} xs={24}>
+        return <Col key={index} lg={6} md={8} xs={24}>
             <div style={{
                 position: 'relative'
             }}>

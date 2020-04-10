@@ -131,17 +131,25 @@ router.post('/getSubscriptionVideos', (req, res) => {
         //[]안에 userTo의 정보를 담는다
         let subscribedUser = [];
 
-        subscribers.map((subscriber, i)=> {
+        subscribers.map((subscriber, i) => {
             subscribedUser.push(subscriber.userTo)
         })
 
         // 찾은 사람들의 비디오를 가지고 온다. 하나의 Id를 가져올 때는 req.body._id 가 성립되지만 여러 Id를 가져올 때는 적용이
         // 안되기 때문에 MongoDB에서 지원하는 기능인 $in 메소드를 사용하면 변수에 있는 모든 Id를 가지고 writer 를 찾을 수 있다.
-        Video.find({ writer: { $in: subscribedUser }})
+        Video
+            .find({
+            writer: {
+                $in: subscribedUser
+            }
+        })
             .populate('writer')
             .exec((err, videos) => {
-                if(err) return res.status(400).send(err);
-                res.status(200).json({ success: true, videos })
+                if (err) 
+                    return res.status(400).send(err);
+                res
+                    .status(200)
+                    .json({success: true, videos})
             })
     })
 });
