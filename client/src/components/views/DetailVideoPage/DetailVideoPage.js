@@ -3,6 +3,7 @@ import {Row, Col, List, Avatar} from 'antd';
 import Axios from 'axios';
 import SideVideo from "./Sections/SideVideo";
 import Subscribe from "./Sections/Subscribe";
+import Subscriber from './Sections/Subscribe';
 
 function VideoDetailPage(props) {
 
@@ -28,6 +29,10 @@ function VideoDetailPage(props) {
     }, [videoVariable]);
 
     if (Video.writer) {
+        //userTo와 userFrom 이 같으면  구독버튼이 안보이게!
+        const subscribeButton = Video.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={Video.writer._id}
+        userFrom ={localStorage.getItem('userId')}/>
+
         return (
             <div>
             <Row gutter={[16, 16]}>
@@ -43,8 +48,7 @@ function VideoDetailPage(props) {
                         }}
                             src={`http://localhost:5000/${Video.filePath}`}
                             controls/>
-                        <List.Item actions={[<Subscribe userTo={Video.writer._id}
-                        userFrom ={localStorage.getItem('userId')}/>]}>
+                        <List.Item actions={[subscribeButton ]}>
                             <List.Item.Meta
                                 avatar={< Avatar src={Video.writer.image}/>}
                                 title={Video.writer.name}
