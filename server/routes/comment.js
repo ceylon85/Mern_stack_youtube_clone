@@ -10,8 +10,8 @@ router.post("/saveComment", (req, res) => {
     comment.save((err, comment) => {
         if (err) 
             return res.json({success: false, err})
-        
-        //저장한 전체정보를 가져온다.
+
+            //저장한 전체정보를 가져온다.
         Comment
             .find({'_id': comment._id})
             .populate('writer')
@@ -23,6 +23,20 @@ router.post("/saveComment", (req, res) => {
                     .json({success: true, result})
             })
     })
+});
+
+//모든 Comments 정보를 가져온다.
+router.post("/getComments", (req, res) => {
+    Comment
+        .find({'postId': req.body.videoId})
+        .populate('writer')
+        .exec((err, comments) => {
+            if (err) 
+                return res.status(400).send(err)
+            res
+                .status(200)
+                .json({success: true, comments})
+        })
 });
 
 module.exports = router;

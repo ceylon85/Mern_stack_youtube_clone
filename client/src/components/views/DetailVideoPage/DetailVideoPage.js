@@ -3,14 +3,15 @@ import {Row, Col, List, Avatar} from 'antd';
 import Axios from 'axios';
 import SideVideo from "./Sections/SideVideo";
 import Subscribe from "./Sections/Subscribe";
-import Comment from "./Sections/Comment";
+import Comments from "./Sections/Comments";
 
 function VideoDetailPage(props) {
 
     const videoId = props.match.params.videoId
     const [Video,
         setVideo] = useState([])
-
+    const [CommentLists,
+        setCommentLists] = useState([])
     const videoVariable = {
         videoId: videoId
     }
@@ -26,47 +27,67 @@ function VideoDetailPage(props) {
                     alert('비디오 정보를 가져으는데 실패했습니다.');
                 }
             })
+        //모든 comments 정보를 받는다.
+        Axios
+            .post('/api/comment/getComments', videoVariable)
+            .then(response => {
+                if (response.data.success) {
+                    setCommentLists(response.data.comments)
+                } else {
+                    alert('코멘트 정보 가져오기에 실패했습니다.')
+                }
+            })
     }, [videoVariable]);
+
+    const updateComment = (newComment) => {
+        setCommentLists(CommentLists.concat(newComment))
+    }
 
     if (Video.writer) {
         //userTo와 userFrom 이 같으면  구독버튼이 안보이게!
-        const subscribeButton = Video.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={Video.writer._id}
-        userFrom ={localStorage.getItem('userId')}/>
+        const subscribeButton = Video.writer._id !== localStorage.getItem('userId') && <Subscribe
+            userTo={Video.writer._id}
+            userFrom
+            ={localStorage.getItem('userId')}/>
 
         return (
-            <div>
-            <Row gutter={[16, 16]}>
-                <Col lg={18} xs={24}>
-                    <div
-                        style={{
-                        width: '100%',
-                        padding: '3rem 4rem'
-                    }}>
-                        <video
+                <Row gutter={[16, 16]}>
+                    <Col lg={18} xs={24}>
+                        <div
                             style={{
-                            width: '100%'
-                        }}
-                            src={`http://localhost:5000/${Video.filePath}`}
-                            controls/>
-                        <List.Item actions={[subscribeButton ]}>
-                            <List.Item.Meta
-                                avatar={< Avatar src={Video.writer.image}/>}
-                                title={Video.writer.name}
-                                description={Video.description}/>
+                            width: '100%',
+                            padding: '3rem 4rem'
+                        }}>
+                            <video
+                                style={{
+                                width: '100%'
+                            }}
+                                src={`http://localhost:5000/${Video.filePath}`}
+                                controls/>
+                            <List.Item actions={[subscribeButton]}>
+                                <List.Item.Meta
+                                    avatar={< Avatar src = {
+                                    Video.writer.image
+                                } />}
+                                    title={Video.writer.name}
+                                    description={Video.description}/>
 
-                        </List.Item>
-                        {/* Comments */}
-                        <Comment postId={videoId}/>
-                    </div>
+                            </List.Item>
+                            {/* Comments */}
+                            <Comments
+                                CommentLists={CommentLists}
+                                postId={Video._Id}
+                                refreshFunction={updateComment}/>
+                        </div>
 
-                </Col>
-                <Col lg={6} xs={24}>
+                    </Col>
+                    <Col lg={6} xs={24}>
 
-                    <SideVideo/>
+                        <SideVideo/>
 
-                </Col>
-            </Row>
-            </div>
+                    </Col>
+                </Row>
+            
         )
     } else {
         return (
