@@ -25,12 +25,12 @@ function SingleComment(props) {
         e.preventDefault();//refresh 안되게 걸어놓는다
 
         const variables ={
-            content: CommentValue,
             //Redux hook 사용해서 가져와보기
             //state에 있는 user의 userData의 id 값을 가져온다.
             writer: user.userData._id,
             postId: props.postId,
-            responseTo: props.comment._id
+            responseTo: props.comment._id,
+            content: CommentValue
         }
 
         Axios.post('/api/comment/saveComment',variables)
@@ -57,7 +57,8 @@ function SingleComment(props) {
             actions={actions} 
             author={props.comment.writer.name} 
             avatar={<Avatar src={props.comment.writer.image} alt="image" />}
-            content={<p>{props.comment.content} </p>}/>
+            content={<p>{props.comment.content} </p>}>
+            </Comment>
             
         {OpenReply &&
             <form 

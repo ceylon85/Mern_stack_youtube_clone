@@ -56,7 +56,9 @@ function Comments(props) {
                 (!comment.responseTo && 
                 <React.Fragment>
                     <SingleComment comment={comment} postId={videoId} refreshFunction={props.refreshFunction}/>
-                    <ReplyComment parentCommentId={comment._id}commentLists={props.CommentLists} postId={videoId}/>
+                    <ReplyComment 
+                    refreshFunction={props.refreshFunction}
+                    parentCommentId={comment._id}commentLists={props.CommentLists} postId={videoId}/>
                 </React.Fragment>)))}
 
             {/* Root Comment form */}
