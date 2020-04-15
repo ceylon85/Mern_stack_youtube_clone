@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Axios from 'axios'
 import {useSelector} from 'react-redux';
 import SingleComment from './SingleComment';
+import ReplyComment from './ReplyComment'
 import {Button, Input} from 'antd';
 
 const TextArea = Input;
@@ -48,12 +49,14 @@ function Comments(props) {
             <br/>
             <p>
                 Replies</p>
-            <hr/> {/* Comment Lists */}
+            <hr/> 
+            {/* Comment Lists */}
             {props.CommentLists && props.CommentLists.map((comment, index) => (
                 //deps 추가
                 (!comment.responseTo && 
                 <React.Fragment>
                     <SingleComment comment={comment} postId={videoId} refreshFunction={props.refreshFunction}/>
+                    <ReplyComment parentCommentId={comment._id}commentLists={props.CommentLists} postId={videoId}/>
                 </React.Fragment>)))}
 
             {/* Root Comment form */}
