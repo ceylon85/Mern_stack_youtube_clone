@@ -34,7 +34,6 @@ function Comments(props) {
             .post('/api/comment/saveComment', variables)
             .then(response => {
                 if (response.data.success) {
-                    console.log(response.data.result)
                     setComment("")
                     props.refreshFunction(response.data.result)
 
@@ -47,19 +46,16 @@ function Comments(props) {
     return (
         <div>
             <br/>
-            <p>
-                Replies</p>
+            <p> Replies</p>
             <hr/> 
             {/* Comment Lists */}
             {props.CommentLists && props.CommentLists.map((comment, index) => (
                 //deps 추가
-                (!comment.responseTo && 
-                <React.Fragment>
-                    <SingleComment comment={comment} postId={videoId} refreshFunction={props.refreshFunction}/>
-                    <ReplyComment 
-                    refreshFunction={props.refreshFunction}
-                    parentCommentId={comment._id}commentLists={props.CommentLists} postId={videoId}/>
-                </React.Fragment>)))}
+                (!comment.responseTo &&
+                    <React.Fragment key={index}>
+                        <SingleComment comment={comment} postId={videoId} refreshFunction={props.refreshFunction} />
+                        <ReplyComment CommentLists={props.CommentLists} postId={props.postId} parentCommentId={comment._id} refreshFunction={props.refreshFunction} />
+                    </React.Fragment>)))}
 
             {/* Root Comment form */}
             <form

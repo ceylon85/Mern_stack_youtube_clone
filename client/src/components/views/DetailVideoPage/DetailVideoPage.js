@@ -5,7 +5,7 @@ import SideVideo from "./Sections/SideVideo";
 import Subscribe from "./Sections/Subscribe";
 import Comments from "./Sections/Comments";
 
-function VideoDetailPage(props) {
+function DetailVideoPage(props) {
 
     const videoId = props.match.params.videoId
     const [Video,
@@ -32,6 +32,7 @@ function VideoDetailPage(props) {
             .post('/api/comment/getComments', videoVariable)
             .then(response => {
                 if (response.data.success) {
+
                     setCommentLists(response.data.comments)
                 } else {
                     alert('코멘트 정보 가져오기에 실패했습니다.')
@@ -67,7 +68,7 @@ function VideoDetailPage(props) {
                             <List.Item actions={[subscribeButton]}>
                                 <List.Item.Meta
                                     avatar={< Avatar src = {
-                                    Video.writer.image
+                                        Video.writer && Video.writer.image
                                 } />}
                                     title={Video.writer.name}
                                     description={Video.description}/>
@@ -76,7 +77,7 @@ function VideoDetailPage(props) {
                             {/* Comments */}
                             <Comments
                                 CommentLists={CommentLists}
-                                postId={Video._Id}
+                                postId={Video._id}
                                 refreshFunction={updateComment}/>
                         </div>
 
@@ -97,4 +98,4 @@ function VideoDetailPage(props) {
 
 }
 
-export default VideoDetailPage
+export default DetailVideoPage
