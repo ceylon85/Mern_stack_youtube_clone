@@ -4,6 +4,7 @@ import Axios from 'axios';
 import SideVideo from "./Sections/SideVideo";
 import Subscribe from "./Sections/Subscribe";
 import Comments from "./Sections/Comments";
+import LikeDislikes from "./Sections/LikeDislikes";
 
 function DetailVideoPage(props) {
 
@@ -32,13 +33,12 @@ function DetailVideoPage(props) {
             .post('/api/comment/getComments', videoVariable)
             .then(response => {
                 if (response.data.success) {
-
                     setCommentLists(response.data.comments)
                 } else {
                     alert('코멘트 정보 가져오기에 실패했습니다.')
                 }
             })
-    }, [videoVariable]);
+    }, []);
 
     const updateComment = (newComment) => {
         setCommentLists(CommentLists.concat(newComment))
@@ -52,43 +52,51 @@ function DetailVideoPage(props) {
             ={localStorage.getItem('userId')}/>
 
         return (
-                <Row gutter={[16, 16]}>
-                    <Col lg={18} xs={24}>
-                        <div
+            <Row gutter={[16, 16]}>
+                <Col lg={18} xs={24}>
+                    <div
+                        style={{
+                        width: '100%',
+                        padding: '3rem 4rem'
+                    }}>
+                        <video
                             style={{
-                            width: '100%',
-                            padding: '3rem 4rem'
-                        }}>
-                            <video
-                                style={{
-                                width: '100%'
-                            }}
-                                src={`http://localhost:5000/${Video.filePath}`}
-                                controls/>
-                            <List.Item actions={[subscribeButton]}>
-                                <List.Item.Meta
-                                    avatar={< Avatar src = {
-                                        Video.writer && Video.writer.image
-                                } />}
-                                    title={Video.writer.name}
-                                    description={Video.description}/>
+                            width: '100%'
+                        }}
+                            src={`http://localhost:5000/${Video.filePath}`}
+                            controls/>
+                        <List.Item
+                            actions={[ < LikeDislikes video userId = {
+                                localStorage.getItem('userId')
+                            }
+                            videoId = {
+                                videoId
+                            } />,
+                            subscribeButton
+                        ]}>
+                            <List.Item.Meta
+                                avatar={< Avatar src = {
+                                Video.writer && Video.writer.image
+                            } />}
+                                title={Video.writer.name}
+                                description={Video.description}/>
 
-                            </List.Item>
-                            {/* Comments */}
-                            <Comments
-                                CommentLists={CommentLists}
-                                postId={Video._id}
-                                refreshFunction={updateComment}/>
-                        </div>
+                        </List.Item>
+                        {/* Comments */}
+                        <Comments
+                            CommentLists={CommentLists}
+                            postId={Video._id}
+                            refreshFunction={updateComment}/>
+                    </div>
 
-                    </Col>
-                    <Col lg={6} xs={24}>
+                </Col>
+                <Col lg={6} xs={24}>
 
-                        <SideVideo/>
+                    <SideVideo/>
 
-                    </Col>
-                </Row>
-            
+                </Col>
+            </Row>
+
         )
     } else {
         return (

@@ -5,7 +5,7 @@ import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment'
 import {Button, Input} from 'antd';
 
-const TextArea = Input;
+const {TextArea} = Input;
 
 function Comments(props) {
     //useSelector 를 통해 state에서 user 정보를 가져온다
@@ -50,7 +50,7 @@ function Comments(props) {
             <hr/> 
             {/* Comment Lists */}
             {props.CommentLists && props.CommentLists.map((comment, index) => (
-                //deps 추가
+                //depth 추가
                 (!comment.responseTo &&
                     <React.Fragment key={index}>
                         <SingleComment comment={comment} postId={videoId} refreshFunction={props.refreshFunction} />
