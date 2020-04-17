@@ -38,7 +38,7 @@ function DetailVideoPage(props) {
                     alert('코멘트 정보 가져오기에 실패했습니다.')
                 }
             })
-    }, []);
+    }, [ ]);
 
     const updateComment = (newComment) => {
         setCommentLists(CommentLists.concat(newComment))
