@@ -97,11 +97,12 @@ function VideoUploadPage(props) {
             .post('/api/video/uploadVideo', variables)
             .then(response => {
                 if (response.data.success) {
+                    
+                    setTimeout(()=>{
+                        props.history.push('/')
+                    }, 3000);
                     alert('업로드에 성공!')
-
-                    props
-                        .history
-                        .push('/');
+                    
 
                 } else {
                     alert('비디오 업로드에 실패')
@@ -109,7 +110,7 @@ function VideoUploadPage(props) {
             })
 
     }
-
+    
     const onDrop = (files) => {
 
         let formData = new FormData();
