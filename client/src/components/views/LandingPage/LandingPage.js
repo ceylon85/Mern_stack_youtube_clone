@@ -16,7 +16,7 @@ function LandingPage() {
             .get('/api/video/getVideos')
             .then(response => {
                 if (response.data.success) {
-                    console.log(response.data);
+                    console.log(response.data.videos);
                     setVideos(response.data.videos)
                 } else {
                     alert('비디오 가져오기를 실패했습니다')
