@@ -46,10 +46,10 @@ function DetailVideoPage(props) {
 
     if (Video.writer) {
         //userTo와 userFrom 이 같으면  구독버튼이 안보이게!
-        const subscribeButton = Video.writer._id !== localStorage.getItem('userId') && <Subscribe
-            userTo={Video.writer._id}
-            userFrom
-            ={localStorage.getItem('userId')}/>
+        const subscribeButton = 
+        Video.writer._id !== localStorage.getItem('userId') 
+        && <Subscribe userTo={Video.writer._id}
+            userFrom={localStorage.getItem('userId')}/>
 
         return (
             <Row gutter={[16, 16]}>

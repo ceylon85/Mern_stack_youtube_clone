@@ -10,10 +10,10 @@ var ffmpeg = require("fluent-ffmpeg");
 //STORAGE MULTER CONFIG
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/");
+        cb(null, "uploads/")
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}_${file.originalname}`);
+        cb(null, `${Date.now()}_${file.originalname}`)
     },
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname)
@@ -31,9 +31,11 @@ router.post('/uploadfiles', (req, res) => {
 
     upload(req, res, err => {
         if (err) {
-            return res.json({success: false, err})
+            return res.json({ success: false, err })
         }
-        return res.json({success: true, filePath: res.req.file.path, fileName: res.req.file.filename})
+        return res.json({success: true, 
+            filePath: res.req.file.path, 
+            fileName: res.req.file.filename})
         //file을 업로드하면 그 경로를 보내주는 것
     })
 });
@@ -46,10 +48,7 @@ router.post('/uploadVideo', (req, res) => {
     video.save((err, video) => {
         if (err) 
             return res.status(400).json({success: false, err})
-        return
-        res
-            .status(200)
-            .json({success: true})
+            return res.status(200).json({success: true})
     })
 });
 
@@ -57,8 +56,8 @@ router.post('/uploadVideo', (req, res) => {
 router.post('/thumbnail', (req, res) => {
     //썸네일 생성, 비디오 러닝타임
 
-    let thumbsFilePath = ""
-    let fileDuration = ""
+    let thumbsFilePath = "";
+    let fileDuration = "";
     //비디오 정보
     ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
         console.log(metadata); //all metadata
@@ -93,63 +92,46 @@ router.post('/thumbnail', (req, res) => {
 //비디오를 DB 에서 가져와서 클라이언트에 보낸다.
 router.get('/getVideos', (req, res) => {
 
-    Video
-        .find()
+    Video.find()
         .populate('writer')
         .exec((err, videos) => {
-            if (err) 
-                return res.status(400).send(err);
-            res
-                .status(200)
-                .json({success: true, videos})
+            if(err) return res.status(400).send(err);
+            res.status(200).json({ success: true, videos })
         })
 });
 
 //detailPage 에서 video정보 가져오는 router
 router.post('/getVideoDetail', (req, res) => {
-    Video
-        .findOne({"_id": req.body.videoId})
-        .populate('writer')
-        .exec((err, video) => {
-            if (err) 
-                return res.status(400).send(err);
-            return res
-                .status(200)
-                .json({success: true, video})
-        })
+    Video.findOne({ _id : req.body.videoId })
+    .populate('writer')
+    .exec((err, video) => {
+        if(err) return res.status(400).send(err);
+        res.status(200).json({ success: true, video })
+    })
 });
 
 //SubscriptionPage 구독 페이지
 router.post('/getSubscriptionVideos', (req, res) => {
     //자신의 ID를 가지고 구독하는 사람들을 찾는다.
-    Subscriber.find({userFrom: req.body.userFrom})
+    Subscriber.find({ 'userFrom': req.body.userFrom })
     //subscribers 구독하는 사람의 정보가 담긴다.
-        .exec((err, subscribers) => {
-        if (err) 
-            return res.status(400).send(err);
+    .exec((err, subscribers)=> {
+        if(err) return res.status(400).send(err);
         
         //[]안에 userTo의 정보를 담는다
         let subscribedUser = [];
 
-        subscribers.map((subscriber, i) => {
+        subscribers.map((subscriber, i)=> {
             subscribedUser.push(subscriber.userTo)
         })
 
         // 찾은 사람들의 비디오를 가지고 온다. 하나의 Id를 가져올 때는 req.body._id 가 성립되지만 여러 Id를 가져올 때는 적용이
         // 안되기 때문에 MongoDB에서 지원하는 기능인 $in 메소드를 사용하면 변수에 있는 모든 Id를 가지고 writer 를 찾을 수 있다.
-        Video
-            .find({
-            writer: {
-                $in: subscribedUser
-            }
-        })
+        Video.find({ writer: { $in: subscribedUser }})
             .populate('writer')
             .exec((err, videos) => {
-                if (err) 
-                    return res.status(400).send(err);
-                res
-                    .status(200)
-                    .json({success: true, videos})
+                if(err) return res.status(400).send(err);
+                res.status(200).json({ success: true, videos })
             })
     })
 });
