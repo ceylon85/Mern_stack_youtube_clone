@@ -97,7 +97,7 @@ function LandingPage() {
             margin: '3rem auto'
         }}>
             <Title level={2}>
-                Recommended
+                추천 비디오
             </Title>
             <hr/>
 

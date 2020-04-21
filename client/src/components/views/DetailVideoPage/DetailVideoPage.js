@@ -80,7 +80,7 @@ function DetailVideoPage(props) {
                             } />}
                                 title={Video.writer.name}
                                 description={Video.description}/>
-
+    
                         </List.Item>
                         {/* Comments */}
                         <Comments
