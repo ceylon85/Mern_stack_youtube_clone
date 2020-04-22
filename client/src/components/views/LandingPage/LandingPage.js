@@ -79,7 +79,7 @@ function LandingPage() {
             {/* 비디오 views */}
             <span style={{
                 marginLeft: '3rem'
-            }}>
+            }} views={video.views}>
                 {video.views} </span>
             views - 
             {/* 업데이트 날짜 */}

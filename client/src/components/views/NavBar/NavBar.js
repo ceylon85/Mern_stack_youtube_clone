@@ -19,7 +19,7 @@ function NavBar() {
   return (
     <nav className="menu" style={{ position: 'fixed', zIndex: 5, width: '100%' }}>
       <div className="menu__logo">
-      <Icon type="youtube" style={{fontSize: '18px', color:'rgb(221, 109, 109)' }} theme="filled"/> <a href="/">Youtube</a>
+      <Icon type="youtube" style={{fontSize: '18px', color:'rgb(221, 109, 109)' }} theme="filled"/> <a href="/">너튜브</a>
       </div>
       <div className="menu__container">
         <div className="menu_left">

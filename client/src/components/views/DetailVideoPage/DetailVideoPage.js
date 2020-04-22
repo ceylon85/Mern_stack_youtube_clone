@@ -78,7 +78,7 @@ function DetailVideoPage(props) {
                                 avatar={< Avatar src = {
                                 Video.writer && Video.writer.image
                             } />}
-                                title={Video.writer.name}
+                                title={Video.title}
                                 description={Video.description}/>
     
                         </List.Item>

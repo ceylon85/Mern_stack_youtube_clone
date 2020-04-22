@@ -36,7 +36,7 @@ function RightMenu(props) {
     return ( 
       <Menu mode={props.mode}>
          <Menu.Item key="upload">
-          <a href="/video/upload">비디오 업로드</a>
+          <a href="/video/upload">동영상 올리기</a>
         </Menu.Item>
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>나가기</a>
