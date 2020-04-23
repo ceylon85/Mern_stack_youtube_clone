@@ -41,7 +41,7 @@ function LandingPage() {
                         width: '100%'
                     }}
                         alt="thumbnail"
-                        src={`http://localhost:5000/${video.thumbnail}`}/> 
+                        src={`http://127.0.0.1:5000/${video.thumbnail}`}/> 
                         {/* 비디오 duration */}
                     <div
                         className=" duration"
@@ -79,7 +79,7 @@ function LandingPage() {
             {/* 비디오 views */}
             <span style={{
                 marginLeft: '3rem'
-            }} views={video.views}>
+            }}>
                 {video.views} </span>
             views - 
             {/* 업데이트 날짜 */}

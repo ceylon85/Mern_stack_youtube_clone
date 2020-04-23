@@ -91,7 +91,6 @@ router.post('/thumbnail', (req, res) => {
 
 //비디오를 DB 에서 가져와서 클라이언트에 보낸다.
 router.get('/getVideos', (req, res) => {
-
     Video.find()
         .populate('writer')
         .exec((err, videos) => {

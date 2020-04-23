@@ -63,7 +63,7 @@ function DetailVideoPage(props) {
                             style={{
                             width: '100%'
                         }}
-                            src={`http://localhost:5000/${Video.filePath}`}
+                            src={`http://127.0.0.1:5000/${Video.filePath}`}
                             controls/>
                         <List.Item
                             actions={[ < LikeDislikes video userId = {
