@@ -10,7 +10,7 @@
 `DetailPage`에 연관된 `Components`
 - `SideVideo.js` 
 - `LikeDislikes.js` : 좋아요, 싫어요 기능
-- `Comments.js` : 댓글 기능
+- `Comments.js` : 댓글 기능 
 `Comments.js` 와 연관된 `Component`: `SingleComment.js` + `ReplyComment.js` 
 
 # 
