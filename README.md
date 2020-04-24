@@ -14,5 +14,5 @@
 
 #
 
-### `Subscribe.js`
+### `SubscriptionPage.js`
 ![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/45006553/80177383-8bcc4f00-8636-11ea-9eca-2437447b9e73.gif)
